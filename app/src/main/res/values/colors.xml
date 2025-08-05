@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Identity Colors -->
+    <color name="colorPrimary">#A78BFA</color>
+    <color name="colorPrimaryDark">#7C3AED</color>
+    <color name="colorAccent">#F472B6</color>
+    
+    <!-- Modern Color Palette -->
+    <color name="brand_purple">#A78BFA</color>
+    <color name="brand_purple_dark">#7C3AED</color>
+    <color name="brand_coral">#F472B6</color>
+    <color name="brand_coral_light">#F9A8D4</color>
+    
+    <!-- Background Colors -->
+    <color name="background_light">#FEFEFE</color>
+    <color name="background_soft">#F8FAFC</color>
+    <color name="card_background">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_light">#9CA3AF</color>
+    <color name="text_white">#FFFFFF</color>
+    
+    <!-- Status Colors -->
+    <color name="success_green">#10B981</color>
+    <color name="warning_orange">#F59E0B</color>
+    <color name="error_red">#EF4444</color>
+    <color name="emergency_red">#DC2626</color>
+    
+    <!-- Gradient Colors -->
+    <color name="gradient_start">#A78BFA</color>
+    <color name="gradient_center">#F472B6</color>
+    <color name="gradient_end">#7C3AED</color>
+    
+    <!-- Soft Colors for Cards -->
+    <color name="soft_purple">#F3F4F6</color>
+    <color name="soft_pink">#FDF2F8</color>
+    <color name="soft_blue">#EFF6FF</color>
+    <color name="soft_green">#F0FDF4</color>
+    
+    <!-- Border Colors -->
+    <color name="border_light">#E5E7EB</color>
+    <color name="border_purple">#C4B5FD</color>
+    <color name="border_pink">#F9A8D4</color>
+</resources>

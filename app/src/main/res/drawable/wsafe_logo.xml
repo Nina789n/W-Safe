@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Light pink background with rounded corners -->
+    <path
+        android:fillColor="#FFF0F5"
+        android:pathData="M20,20 L180,20 Q190,20 190,30 L190,170 Q190,180 180,180 L20,180 Q10,180 10,170 L10,30 Q10,20 20,20 Z" />
+
+    <!-- Main flower shape with female profile (left) -->
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M60,80 Q70,60 80,70 Q90,80 85,95 Q80,110 70,105 Q60,100 65,85 Q60,80 60,80" />
+    
+    <!-- Hair detail for main profile -->
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M65,70 Q70,65 75,70 Q80,75 78,80 Q75,85 70,80 Q65,75 65,70" />
+
+    <!-- Second flower shape (middle) -->
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M85,85 Q95,75 105,85 Q115,95 110,110 Q105,125 95,120 Q85,115 90,100 Q85,85 85,85" />
+
+    <!-- Third flower shape (bottom) -->
+    <path
+        android:fillColor="#FFB6C1"
+        android:pathData="M75,95 Q85,85 95,95 Q105,105 100,120 Q95,135 85,130 Q75,125 80,110 Q75,95 75,95" />
+
+    <!-- Connecting stems -->
+    <path
+        android:fillColor="#FFB6C1"
+        android:strokeColor="#FFB6C1"
+        android:strokeWidth="2"
+        android:pathData="M80,95 Q85,100 90,105" />
+    
+    <path
+        android:fillColor="#FFB6C1"
+        android:strokeColor="#FFB6C1"
+        android:strokeWidth="2"
+        android:pathData="M90,105 Q85,110 80,115" />
+
+    <!-- W-SAFE Text -->
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M70,140 L75,140 L80,150 L85,140 L90,140 L87,145 L90,150 L85,150 L80,145 L75,150 L70,150 L73,145 Z" />
+    
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M95,140 L100,140 L100,150 L95,150 Z" />
+    
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M105,140 L110,140 L110,150 L105,150 Z" />
+    
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M115,140 L120,140 L120,150 L115,150 Z" />
+    
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M125,140 L130,140 L130,150 L125,150 Z" />
+
+    <!-- SLOGAN HERE Text (smaller) -->
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M80,160 L85,160 L85,165 L80,165 Z" />
+    
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M90,160 L95,160 L95,165 L90,165 Z" />
+    
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M100,160 L105,160 L105,165 L100,165 Z" />
+    
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M110,160 L115,160 L115,165 L110,165 Z" />
+    
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M120,160 L125,160 L125,165 L120,165 Z" />
+
+</vector> 

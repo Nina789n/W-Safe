@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Star outline in fuchsia pink -->
+    <path
+        android:fillColor="#FF1493"
+        android:pathData="M54,10 L66,40 L98,40 L72,60 L80,90 L54,70 L28,90 L36,60 L10,40 L42,40 Z" />
+    
+    <!-- Star gradient fill - darker at top, lighter at bottom -->
+    <path
+        android:fillColor="#FF69B4"
+        android:pathData="M54,15 L64,40 L95,40 L70,58 L78,85 L54,68 L30,85 L38,58 L13,40 L44,40 Z" />
+    
+    <!-- Bold white W letter in center -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M35,45 L40,45 L45,55 L50,45 L55,45 L52,65 L48,65 L45,55 L42,65 L38,65 Z" />
+
+</vector> 
