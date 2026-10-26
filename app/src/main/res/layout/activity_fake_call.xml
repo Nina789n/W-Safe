@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#101013">
+
+    <TextView
+        android:id="@+id/tvCaller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mom"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incoming call"
+        android:textColor="#A0A3AA"
+        android:textSize="14sp"
+        android:layout_below="@id/tvCaller"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="24dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnDecline"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/stat_sys_phone_call_forward"
+            android:tint="#E74C3C"
+            android:contentDescription="Decline"/>
+
+        <Space
+            android:layout_width="48dp"
+            android:layout_height="1dp"/>
+
+        <ImageButton
+            android:id="@+id/btnAccept"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/stat_sys_phone_call"
+            android:tint="#2ECC71"
+            android:contentDescription="Accept"/>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
