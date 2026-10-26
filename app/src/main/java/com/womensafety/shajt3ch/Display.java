@@ -23,13 +23,13 @@ public class Display extends Fragment {
         /*return inflater.inflate(R.layout.display, container, false);*/
         View view = inflater.inflate(R.layout.display, container, false);
 
-        SQLiteDatabase db;
-        db = getActivity().openOrCreateDatabase("NumberDB",Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = getActivity().openOrCreateDatabase("NumberDB",Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS details(Pname VARCHAR,number VARCHAR);");
 
         c = db.rawQuery("SELECT * FROM details", null);
         if (c.getCount() == 0) {
             showMessage("Error", "No records found.");
-            return inflater.inflate(R.layout.display, container, false);
+            return view;
         }
         StringBuffer buffer = new StringBuffer();
         while (c.moveToNext()) {

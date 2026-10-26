@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".FakeCallActivity" />
+        <activity
+            android:name=".AdminDashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".UserRegistrationActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+        <activity
+            android:name=".UserDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
 
         <!-- Login Activity - Launcher -->
         <activity
@@ -80,7 +94,8 @@
         <service
             android:name="com.womensafety.shajt3ch.MyService"
             android:exported="false"
-            android:enabled="true" />
+            android:enabled="true"
+            android:foregroundServiceType="microphone" />
 
     </application>
 

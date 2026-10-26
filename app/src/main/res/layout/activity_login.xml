@@ -279,7 +279,7 @@
 
         </LinearLayout>
 
-        <!-- Demo Credentials Info -->
+        <!-- Info Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -299,7 +299,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Demo Credentials:"
+                    android:text="Welcome to W-Safe!"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#1E293B"
@@ -308,15 +308,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin: admin@womensafety.com / password123"
-                    android:textSize="14sp"
-                    android:textColor="#64748B"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="User: user@womensafety.com / password123"
+                    android:text="Create your account to access all safety features"
                     android:textSize="14sp"
                     android:textColor="#64748B" />
 

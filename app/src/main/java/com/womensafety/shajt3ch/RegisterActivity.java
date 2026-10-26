@@ -2,9 +2,9 @@ package com.womensafety.shajt3ch;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,8 +15,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText etName, etEmail, etPassword, etConfirmPassword, etPhone;
-    private TextInputLayout nameLayout, emailLayout, passwordLayout, confirmPasswordLayout, phoneLayout;
+    private EditText etName, etPhone;
+    private TextInputLayout nameLayout, phoneLayout;
     private Button btnRegister, btnBackToLogin;
     private SharedPreferences sharedPreferences;
 
@@ -32,17 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initializeViews() {
         etName = findViewById(R.id.etName);
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
         etPhone = findViewById(R.id.etPhone);
-        
         nameLayout = findViewById(R.id.nameLayout);
-        emailLayout = findViewById(R.id.emailLayout);
-        passwordLayout = findViewById(R.id.passwordLayout);
-        confirmPasswordLayout = findViewById(R.id.confirmPasswordLayout);
         phoneLayout = findViewById(R.id.phoneLayout);
-        
         btnRegister = findViewById(R.id.btnRegister);
         btnBackToLogin = findViewById(R.id.btnBackToLogin);
     }
@@ -54,15 +46,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void validateAndRegister() {
         String name = etName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String confirmPassword = etConfirmPassword.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
 
         // Clear previous errors
         clearErrors();
 
-        // Validate name
         if (TextUtils.isEmpty(name)) {
             nameLayout.setError("Name is required");
             return;
@@ -73,51 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Validate email
-        if (TextUtils.isEmpty(email)) {
-            emailLayout.setError("Email is required");
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailLayout.setError("Please enter a valid email address");
-            return;
-        }
-
-        if (!email.contains("@")) {
-            emailLayout.setError("Email must contain @ symbol");
-            return;
-        }
-
-        // Validate password
-        if (TextUtils.isEmpty(password)) {
-            passwordLayout.setError("Password is required");
-            return;
-        }
-
-        if (password.length() < 8) {
-            passwordLayout.setError("Password must be at least 8 characters long");
-            return;
-        }
-
-        // Check for special characters in password
-        if (!password.matches(".*[@#$%^&+=].*")) {
-            passwordLayout.setError("Password must contain at least one special character (@#$%^&+=)");
-            return;
-        }
-
-        // Validate confirm password
-        if (TextUtils.isEmpty(confirmPassword)) {
-            confirmPasswordLayout.setError("Please confirm your password");
-            return;
-        }
-
-        if (!password.equals(confirmPassword)) {
-            confirmPasswordLayout.setError("Passwords do not match");
-            return;
-        }
-
-        // Validate phone number
         if (TextUtils.isEmpty(phone)) {
             phoneLayout.setError("Phone number is required");
             return;
@@ -128,35 +71,36 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // If all validations pass, register the user
-        registerUser(name, email, password, phone);
+        // Save contact
+        registerContact(name, phone);
     }
 
     private void clearErrors() {
         nameLayout.setError(null);
-        emailLayout.setError(null);
-        passwordLayout.setError(null);
-        confirmPasswordLayout.setError(null);
         phoneLayout.setError(null);
     }
 
-    private void registerUser(String name, String email, String password, String phone) {
-        // In a real app, this would save to a database
-        // For demo purposes, we'll save to SharedPreferences
-        
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("userName", name);
-        editor.putString("userEmail", email);
-        editor.putString("userPassword", password); // In real app, this should be hashed
-        editor.putString("userPhone", phone);
-        editor.putBoolean("isLoggedIn", true);
-        editor.apply();
-
-        Toast.makeText(this, "Registration successful! Welcome " + name, Toast.LENGTH_LONG).show();
-        
-        // Start main activity
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    private void registerContact(String name, String phone) {
+        // Save to database
+        SQLiteDatabase db = null;
+        try {
+            db = openOrCreateDatabase("NumberDB", MODE_PRIVATE, null);
+            db.execSQL("CREATE TABLE IF NOT EXISTS details(Pname VARCHAR,number VARCHAR);");
+            
+            // Use ContentValues to prevent SQL injection
+            android.content.ContentValues values = new android.content.ContentValues();
+            values.put("Pname", name);
+            values.put("number", phone);
+            db.insert("details", null, values);
+            
+            Toast.makeText(this, "Contact saved: " + name, Toast.LENGTH_SHORT).show();
+            finish();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error saving contact: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
     }
 } 

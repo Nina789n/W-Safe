@@ -22,6 +22,9 @@ public class DownloadUrl {
 
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
+            
+            // Nominatim API requires User-Agent header
+            urlConnection.setRequestProperty("User-Agent", "WomenSafetyApp/1.0");
 
             // Connecting to url
             urlConnection.connect();

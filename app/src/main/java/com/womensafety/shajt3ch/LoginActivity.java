@@ -16,6 +16,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import android.location.Location;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,23 +37,36 @@ public class LoginActivity extends AppCompatActivity {
     private RadioGroup rgUserType;
     private RadioButton rbAdmin, rbUser;
     private SharedPreferences sharedPreferences;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("WomenSafetyApp", MODE_PRIVATE);
 
-        // Check if user is already logged in
+        if (sharedPreferences.getBoolean("autoLoginAdmin", false)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isLoggedIn", true);
+            editor.putBoolean("isAdmin", true);
+            editor.putString("userType", "Admin");
+            editor.apply();
+            startMainActivity();
+            return;
+        }
+
         if (isLoggedIn()) {
             startMainActivity();
             return;
         }
 
         initializeViews();
+        prefillLastLoginDetails();
         setupClickListeners();
+        
+        // Initialize location client
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     private void initializeViews() {
@@ -63,36 +87,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        try {
-            btnLogin.setOnClickListener(v -> validateAndLogin());
-            btnRegister.setOnClickListener(v -> startRegisterActivity());
-            tvForgotPassword.setOnClickListener(v -> showForgotPasswordDialog());
-            
-            // SOS button - simple emergency help
-            Button btnEmergencySOS = findViewById(R.id.btnEmergencySOS);
-            if (btnEmergencySOS != null) {
-                btnEmergencySOS.setOnClickListener(v -> sendEmergencySOS());
-            }
-            
-            // Auto-fill credentials based on user type selection
-            if (rgUserType != null) {
-                rgUserType.setOnCheckedChangeListener((group, checkedId) -> {
-                    if (checkedId == R.id.rbAdmin) {
-                        etEmail.setText("admin@womensafety.com");
-                        etPassword.setText("password123");
-                    } else if (checkedId == R.id.rbUser) {
-                        etEmail.setText("user@womensafety.com");
-                        etPassword.setText("password123");
-                    }
-                });
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "Error setting up listeners: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        btnLogin.setOnClickListener(v -> validateAndLogin());
+        btnRegister.setOnClickListener(v -> startUserRegistrationActivity());
+        tvForgotPassword.setOnClickListener(v -> showForgotPasswordDialog());
+        
+        Button btnEmergencySOS = findViewById(R.id.btnEmergencySOS);
+        if (btnEmergencySOS != null) {
+            btnEmergencySOS.setOnClickListener(v -> sendEmergencySOS());
+        }
+        
+        if (rgUserType != null) {
+            rgUserType.setOnCheckedChangeListener((group, checkedId) -> {
+                etEmail.setText("");
+                etPassword.setText("");
+            });
         }
     }
 
     private void validateAndLogin() {
         try {
+            if (etEmail == null || etPassword == null || rbAdmin == null) {
+                Toast.makeText(this, "Please wait, initializing...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             boolean isAdmin = rbAdmin.isChecked();
@@ -120,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // Check credentials
             if (isValidCredentials(email, password, isAdmin)) {
-                saveLoginState(email, isAdmin);
+                saveLoginState(email, password, isAdmin);
                 startMainActivity();
             } else {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
@@ -131,20 +149,58 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isValidCredentials(String email, String password, boolean isAdmin) {
-        if (isAdmin) {
-            return email.equals("admin@womensafety.com") && password.equals("password123");
-        } else {
-            return email.equals("user@womensafety.com") && password.equals("password123");
+        // Check if email is registered
+        Set<String> registeredEmails = sharedPreferences.getStringSet("registeredEmails", new HashSet<>());
+        
+        // Debug: Show what emails are registered
+        Toast.makeText(this, "Registered emails: " + registeredEmails.toString(), Toast.LENGTH_SHORT).show();
+        
+        if (!registeredEmails.contains(email)) {
+            Toast.makeText(this, "Email not found: " + email, Toast.LENGTH_SHORT).show();
+            return false;
         }
+
+        // Get user data
+        String userKey = "user_" + email.replace("@", "_").replace(".", "_");
+        String storedPassword = sharedPreferences.getString(userKey + "_password", "");
+        boolean storedIsAdmin = sharedPreferences.getBoolean(userKey + "_isAdmin", false);
+
+        // Debug: Show stored data
+        Toast.makeText(this, "Stored password: " + storedPassword + ", Admin: " + storedIsAdmin, Toast.LENGTH_SHORT).show();
+
+        // Validate password and admin status
+        return password.equals(storedPassword) && isAdmin == storedIsAdmin;
     }
 
-    private void saveLoginState(String email, boolean isAdmin) {
+    private void saveLoginState(String email, String password, boolean isAdmin) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isLoggedIn", true);
         editor.putString("userEmail", email);
         editor.putBoolean("isAdmin", isAdmin);
         editor.putString("userType", isAdmin ? "Admin" : "User");
+
+        // Persist last successful login details for convenience (plain text per user's request)
+        editor.putString("lastLoginEmail", email);
+        editor.putString("lastLoginPassword", password);
+
+        // Mark this specific user as logged in for admin dashboard tracking
+        String userKey = "user_" + email.replace("@", "_").replace(".", "_");
+        editor.putBoolean(userKey + "_isLoggedIn", true);
+        editor.putLong(userKey + "_lastActive", System.currentTimeMillis());
+
+        // Enable auto-login for admin going forward
+        if (isAdmin) {
+            editor.putBoolean("autoLoginAdmin", true);
+        }
+
         editor.apply();
+    }
+
+    private void prefillLastLoginDetails() {
+        String lastEmail = sharedPreferences.getString("lastLoginEmail", "");
+        String lastPassword = sharedPreferences.getString("lastLoginPassword", "");
+        if (!lastEmail.isEmpty()) etEmail.setText(lastEmail);
+        if (!lastPassword.isEmpty()) etPassword.setText(lastPassword);
     }
 
     private boolean isLoggedIn() {
@@ -152,13 +208,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        // Check if user is admin and redirect to admin dashboard
+        boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
+        
+        Intent intent;
+        if (isAdmin) {
+            intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+        } else {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+        }
+        
         startActivity(intent);
         finish();
     }
 
-    private void startRegisterActivity() {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+    private void startUserRegistrationActivity() {
+        Intent intent = new Intent(LoginActivity.this, UserRegistrationActivity.class);
         startActivity(intent);
     }
 
@@ -167,48 +232,84 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendEmergencySOS() {
-        try {
-            // Create emergency message with device ID
-            String deviceId = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-            String shortDeviceId = deviceId.substring(0, Math.min(8, deviceId.length()));
-            
-            String emergencyMessage = "🚨 EMERGENCY SOS 🚨\n" +
-                    "I am in danger, please come fast...\n" +
-                    "Device ID: " + shortDeviceId + "\n" +
-                    "Location: " + getLocationString() + "\n" +
-                    "Time: " + java.time.LocalDateTime.now().toString() + "\n" +
-                    "Please respond immediately!";
-
-            // Try to open WhatsApp with the message
-            try {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, emergencyMessage);
-                intent.setPackage("com.whatsapp");
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(this, "Emergency message: " + emergencyMessage, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Getting location and sending to Discord...", Toast.LENGTH_SHORT).show();
+        
+        // Check location permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
+                == PackageManager.PERMISSION_GRANTED) {
+            getLocationAndSendToDiscord();
+        } else {
+            // Request permission
+            ActivityCompat.requestPermissions(this, 
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 
+                1001);
+        }
+    }
+    
+    private void getLocationAndSendToDiscord() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
+                == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        String deviceId = android.provider.Settings.Secure.getString(
+                            getContentResolver(), 
+                            android.provider.Settings.Secure.ANDROID_ID);
+                        String shortDeviceId = deviceId != null && deviceId.length() > 8 
+                            ? deviceId.substring(0, 8) : deviceId;
+                        
+                        String locationStr;
+                        if (location != null) {
+                            double lat = location.getLatitude();
+                            double lon = location.getLongitude();
+                            locationStr = "Lat: " + lat + ", Long: " + lon + 
+                                        "\nGoogle Maps: https://maps.google.com/?q=" + lat + "," + lon;
+                        } else {
+                            locationStr = "Location: Unable to get GPS coordinates";
+                        }
+                        
+                        String emergencyMessage = "🚨 **EMERGENCY SOS** 🚨\n\n" +
+                                "I am in danger, please come fast...\n\n" +
+                                "**Device ID:** " + shortDeviceId + "\n" +
+                                "**Location:** " + locationStr + "\n" +
+                                "**Time:** " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", 
+                                    java.util.Locale.getDefault()).format(new java.util.Date()) + "\n\n" +
+                                "**Please respond immediately!**";
+                        
+                        // Send to Discord
+                        DiscordHelper.sendMessageToDiscord(emergencyMessage, new DiscordHelper.DiscordCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(LoginActivity.this, 
+                                    "SOS sent to Discord server 'w-safe' successfully!", 
+                                    Toast.LENGTH_LONG).show();
+                            }
+                            
+                            @Override
+                            public void onError(String error) {
+                                Toast.makeText(LoginActivity.this, 
+                                    "Failed to send to Discord: " + error, 
+                                    Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+        }
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1001) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocationAndSendToDiscord();
+            } else {
+                Toast.makeText(this, "Location permission needed for SOS", Toast.LENGTH_LONG).show();
             }
-        } catch (Exception e) {
-            Toast.makeText(this, "SOS error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private String getLocationString() {
-        try {
-            // Get real GPS location
-            android.location.LocationManager locationManager = (android.location.LocationManager) getSystemService(LOCATION_SERVICE);
-            if (locationManager != null) {
-                android.location.Location location = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
-                if (location != null) {
-                    return "Lat: " + location.getLatitude() + ", Long: " + location.getLongitude();
-                }
-            }
-        } catch (SecurityException e) {
-            // Handle permission denied
-        }
-        return "Location: GPS coordinates available";
-    }
 
     @Override
     public void onBackPressed() {

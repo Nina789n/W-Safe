@@ -7,20 +7,14 @@
     android:orientation="vertical"
     android:background="@drawable/gradient_background">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp"
-        android:background="?attr/colorPrimary">
+        android:background="@drawable/gradient_background"
+        android:elevation="0dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,14 +23,17 @@
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-light" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Women Safety App"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+            android:textSize="14sp" 
+            android:textColor="@android:color/white"
+            android:alpha="0.9"
+            android:fontFamily="sans-serif-light" />
 
     </LinearLayout>
 
@@ -44,7 +41,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="12dp"
+        android:scrollbars="none"
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,27 +54,29 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardInstructions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                android:layout_height="96dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp"
+                    android:padding="16dp"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@android:drawable/ic_dialog_alert"
                         android:tint="#6366F1"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginEnd="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -83,7 +84,49 @@
                         android:text="Instructions"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="#1E293B" />
+                        android:textColor="#1E293B"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Fake Call/SMS Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFakeActions"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@android:drawable/sym_action_chat"
+                        android:tint="#6366F1"
+                        android:layout_marginEnd="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fake Call / SMS"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#1E293B"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
@@ -93,27 +136,29 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEmergencySOS"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="8dp"
+                android:layout_height="96dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
                 app:cardBackgroundColor="#FF4444"
-                app:strokeWidth="2dp"
-                app:strokeColor="#FF0000">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp"
+                    android:padding="16dp"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@android:drawable/ic_menu_call"
                         android:tint="@android:color/white"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginEnd="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,45 +166,8 @@
                         android:text="Emergency SOS"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="@android:color/white" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Register Contacts Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardRegisterContacts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@android:drawable/ic_menu_add"
-                        android:tint="#6366F1"
-                        android:layout_marginEnd="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Register Contacts"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#1E293B" />
+                        android:textColor="@android:color/white"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
@@ -169,27 +177,29 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTrustedContacts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
+                android:layout_height="96dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp"
+                    android:padding="16dp"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@android:drawable/ic_menu_call"
                         android:tint="#6366F1"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginEnd="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -197,7 +207,8 @@
                         android:text="Trusted Contacts"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="#1E293B" />
+                        android:textColor="#1E293B"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
@@ -207,35 +218,38 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMyContacts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="96dp"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp"
+                    android:padding="24dp"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:src="@android:drawable/ic_menu_myplaces"
                         android:tint="#6366F1"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginEnd="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="My Contacts"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#1E293B" />
+                        android:textColor="#1E293B"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
@@ -245,35 +259,38 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardLiveLocation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="96dp"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp"
+                    android:padding="24dp"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:src="@android:drawable/ic_menu_mylocation"
                         android:tint="#6366F1"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginEnd="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Live Location"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#1E293B" />
+                        android:textColor="#1E293B"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
@@ -283,36 +300,39 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardAdminPanel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E0E0E0">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp"
+                    android:padding="24dp"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:src="@android:drawable/ic_menu_manage"
                         android:tint="#6366F1"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginEnd="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Admin Panel"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#1E293B" />
+                        android:textColor="#1E293B"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
