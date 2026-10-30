@@ -7,11 +7,11 @@ W-SAFE (Women Safety Box) is an Android application developed to support women's
 The application includes user registration and login, a home dashboard, emergency options, trusted-contact features and live-location access. It also provides access to information and nearby emergency services.
 Screenshots
 <div align="center">Login Screen	Create Account
-<img src="./login-screen.png" alt="W-SAFE Login Screen" width="200">	
+<img src="./login-screen.png" alt="W-SAFE Login Screen" width="120">	
 
 
 Home Dashboard
- <img src="./home-dashboard.png" alt="W-SAFE Home Dashboard" width="200"></div>Key Features
+ <img src="./home-dashboard.png" alt="W-SAFE Home Dashboard" width="120"></div>Key Features
 - User Login: Login interface with Admin and User account selection.
 - User Registration: Create an account by entering personal and contact details.
 - Emergency SOS: Quick access to the emergency SOS feature.
