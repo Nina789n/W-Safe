@@ -1,4 +1,4 @@
-<div align="center"><img src="screenshots/w-safe-logo.png" alt="[W-SAFE logo](https://github.com/Nina789n/W-Safe/blob/main/w-safe-logo.png)" width="180">W-SAFE – Women Safety Box
+<div align="center"><img src="./w-safe-logo.png" alt="W-SAFE Logo" width="180">W-SAFE – Women Safety Box
 A Women’s Safety and Emergency Assistance Android Application
 A mobile application designed to make essential safety features easier to access, including emergency assistance, trusted contacts and location-based support.
 </div>About the Project
